@@ -9,6 +9,7 @@ public class Vertice {
 	private int grauSaida;
 	private String codigo;
 	private String nome;
+	private int creditos;
 
 	public Vertice() {
 
@@ -16,8 +17,21 @@ public class Vertice {
 		this.antecessores = new HashMap<>();
 		this.grauEntrada = 0;
 		this.grauSaida = 0;
+		this.creditos = 0;
 		this.codigo = "";
 		this.nome = "";
+	
+	}
+
+	public Vertice(String _codigo, String _nome, int _creditos) {
+	
+		this.sucessores = new HashMap<>();
+		this.antecessores = new HashMap<>();
+		this.grauEntrada = 0;
+		this.grauSaida = 0;
+		this.creditos = _creditos;
+		this.codigo = _codigo;
+		this.nome = _nome;	
 	
 	}
 
@@ -27,6 +41,7 @@ public class Vertice {
 		this.antecessores = new HashMap<>();
 		this.grauEntrada = 0;
 		this.grauSaida = 0;
+		this.creditos = 0;
 		this.codigo = _codigo;
 		this.nome = _nome;	
 	
@@ -95,7 +110,7 @@ public class Vertice {
 	public HashMap<String, Vertice> getAntecessores() {
 
 		return this.antecessores;
-		
+
 	}
 
 	public int getGrauEntrada() {
