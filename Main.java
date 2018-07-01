@@ -5,9 +5,14 @@ public class Main{
 	public static void main(String[] args) {
 
 		tarefaUM();
+		tarefaDois();
 
 
 	}
+
+	/*
+	 * Primeira parte do Trabalho
+	 */
 
 	public static void tarefaUM() {
 		
@@ -221,13 +226,11 @@ public class Main{
 
 			HashMap<String, Vertice> suces = g.getSucessores(v);
 			Object sucessores[] = suces.keySet().toArray();
-			int cont = 0;
 
 			int tam = suces.size();
 			for(int i = 0; i < tam; i++) {
 				Vertice m = vertices.get(sucessores[i]);
 				g.desconecta(v, m);
-				cont++;
 				if(g.getGrauEntrada(m) == 0) {
 					s.add(m);
 				}
@@ -256,6 +259,109 @@ public class Main{
 				System.out.println(x.getCodigo());
 			}
 
+		}
+
+	}
+
+	/*
+	 * Segunda parte do Trabalho
+	 */
+
+	public static void tarefaDois() {
+
+		Grafo g = new Grafo();
+
+		Vertice ine5453 = new Vertice("INE5453", "Introdução ao TCC", 18);
+		Vertice ine5427 = new Vertice("INE5427", "Planejamento e Gestão de Projetos", 72);
+		Vertice ine5421 = new Vertice("INE5421", "Linguagens Formais e Compiladores", 72);
+		Vertice ine5420 = new Vertice("INE5420", "Computação Gráfica", 72);
+		Vertice ine5423 = new Vertice("INE5423", "Banco de Dados I", 72);
+		Vertice ine5409 = new Vertice("INE5409", "Cálculo Numérico", 72);
+		Vertice ine5433 = new Vertice("INE5433", "Trabalho de Conclusão de Curso I", 108);
+		Vertice ine5425 = new Vertice("INE5425", "Modelagem e Simulação", 72);
+		Vertice ine5424 = new Vertice("INE5424", "Sistemas Operacionais II", 72);
+		Vertice ine5430 = new Vertice("INE5430", "Inteligência Artificial", 72);
+		Vertice ine5418 = new Vertice("INE5418", "Computação Distribuída", 72);
+		Vertice ine5434 = new Vertice("INE5434", "Trabalho de Conclusão de Curso II", 162);
+		Vertice ine5432 = new Vertice("INE5432", "Banco de Dados II", 72);
+		Vertice ine5426 = new Vertice("INE5426", "Construção de Compiladores", 72);
+
+		g.addVertice(ine5453);
+		g.addVertice(ine5427);
+		g.addVertice(ine5421);
+		g.addVertice(ine5420);
+		g.addVertice(ine5423);
+		g.addVertice(ine5409);
+		g.addVertice(ine5433);
+		g.addVertice(ine5425);
+		g.addVertice(ine5424);
+		g.addVertice(ine5430);
+		g.addVertice(ine5418);
+		g.addVertice(ine5434);
+		g.addVertice(ine5432);
+		g.addVertice(ine5426);
+
+		g.conecta(ine5453, ine5433);
+		g.conecta(ine5427, ine5433);
+		g.conecta(ine5421, ine5426);
+		g.conecta(ine5423, ine5432);
+		g.conecta(ine5433, ine5434);
+
+		getPlano(g);
+
+	}
+
+	public static void getPlano(Grafo g) {
+		// Lista vazia que irá conter os elementos ordenados
+		List<Vertice> l = new ArrayList<Vertice>();
+
+		// Conjunto de todos os nós sem arestas de Entrada
+		List<Vertice> s = new ArrayList<Vertice>();
+		HashMap<String, Vertice> vertices = g.getVertices();
+		Object codigos[] = vertices.keySet().toArray();
+
+		int tam = vertices.size();
+		List<Vertice> cd = new ArrayList<Vertice>();
+		for(int i = 0; i < tam; i++) {
+			cd.add(vertices.get(codigos[i]));
+		}
+		int cont = 0;
+		int semestre = 1;
+
+		while(!cd.isEmpty()) {
+			for(int i = 0; i < vertices.size(); i++) {
+				Vertice aux = vertices.get(codigos[i]);
+				if(g.getGrauEntrada(aux) == 0) {
+					s.add(aux);
+				}
+			}
+			System.out.println("Semestre "+semestre);
+			while(cont <= 432) {
+				if(s.isEmpty()) break;
+				cont += s.get(0).getCreditos();
+				if(cont > 432) break;
+				Vertice v = s.remove(0);
+				System.out.println(v.getCodigo());
+				l.add(v);
+				cd.remove(v);
+			}
+			semestre++;
+			cont = 0;
+			for(Vertice x : l) {
+				HashMap<String, Vertice> suces = g.getSucessores(x);
+				Object sucessores[] = suces.keySet().toArray();
+
+				int tamanho = suces.size();
+				for(int i = 0; i < tamanho; i++) {
+					Vertice m = vertices.get(sucessores[i]);
+					g.desconecta(x, m);
+					if(g.getGrauEntrada(m) == 0) {
+						s.add(m);
+					}
+				}	
+			}
+			l.clear();
+			
 		}
 
 	}

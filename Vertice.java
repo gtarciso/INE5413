@@ -124,4 +124,10 @@ public class Vertice {
 		return this.grauSaida;
 
 	}
+
+	public int getCreditos() {
+
+		return this.creditos;
+
+	}
 }
