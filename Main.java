@@ -4,6 +4,10 @@ public class Main{
 
 	public static void main(String[] args) {
 
+		/*
+		 * @Author Gustavo Tarciso da Silva e Luis Oswaldo Ganoza
+		 */
+
 		tarefaUM();
 		tarefaDois();
 
@@ -193,6 +197,8 @@ public class Main{
 
 		// Pre-requisito oitava fase
 		g.conecta(ine5433, ine5434);
+
+		System.out.println("Tarefa 1");
 			
 		getOrdemTopologica(g);
 
@@ -307,46 +313,56 @@ public class Main{
 		g.conecta(ine5423, ine5432);
 		g.conecta(ine5433, ine5434);
 
+		System.out.println("Tarefa 2");
+
 		getPlano(g);
 
 	}
 
 	public static void getPlano(Grafo g) {
+
 		// Lista vazia que irá conter os elementos ordenados
 		List<Vertice> l = new ArrayList<Vertice>();
 
 		// Conjunto de todos os nós sem arestas de Entrada
+		// Lista representando a base
 		List<Vertice> s = new ArrayList<Vertice>();
 		HashMap<String, Vertice> vertices = g.getVertices();
 		Object codigos[] = vertices.keySet().toArray();
 
 		int tam = vertices.size();
-		List<Vertice> cd = new ArrayList<Vertice>();
+		// lista de vértices
+		List<Vertice> vert = new ArrayList<Vertice>();
 		for(int i = 0; i < tam; i++) {
-			cd.add(vertices.get(codigos[i]));
+			vert.add(vertices.get(codigos[i]));
 		}
 		int cont = 0;
 		int semestre = 1;
 
-		while(!cd.isEmpty()) {
-			for(int i = 0; i < vertices.size(); i++) {
-				Vertice aux = vertices.get(codigos[i]);
-				if(g.getGrauEntrada(aux) == 0) {
-					s.add(aux);
+		while(!vert.isEmpty()) {
+			// Gera a base
+			for(Vertice x : vert) {
+				if(g.getGrauEntrada(x) == 0) {
+					s.add(x);
 				}
 			}
+			
+			// Escolhe as Disciplinas do semestre
 			System.out.println("Semestre "+semestre);
-			while(cont <= 432) {
+			while(cont <= 540) {
 				if(s.isEmpty()) break;
 				cont += s.get(0).getCreditos();
-				if(cont > 432) break;
+				if(cont > 540) break;
 				Vertice v = s.remove(0);
-				System.out.println(v.getCodigo());
-				l.add(v);
-				cd.remove(v);
+				if(vert.contains(v)) {
+					System.out.println(v.getCodigo());
+					l.add(v);
+					vert.remove(v);
+				}
 			}
 			semestre++;
 			cont = 0;
+			// Monta u
 			for(Vertice x : l) {
 				HashMap<String, Vertice> suces = g.getSucessores(x);
 				Object sucessores[] = suces.keySet().toArray();
